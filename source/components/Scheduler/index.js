@@ -8,6 +8,7 @@ import Styles from './styles.m.css';
 import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
 import { connect } from 'react-redux';
+import Spinner from '../Spinner';
 
 const mapStateToProps = (state) => {
     return {
@@ -33,6 +34,7 @@ export default class Scheduler extends Component {
 
         return (
             <section className = { Styles.scheduler }>
+                <Spinner/>
                 <main>
                     <header>
                         <h1>Планировщик задач</h1>

@@ -1,7 +1,11 @@
 // Core
 import { applyMiddleware } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import logger from 'redux-logger';
+import { createLogger } from 'redux-logger';
+
+const logger = createLogger({
+    collapsed: true,
+});
 
 const sagaMiddleware = createSagaMiddleware();
 const composeEnhancers = __DEV__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

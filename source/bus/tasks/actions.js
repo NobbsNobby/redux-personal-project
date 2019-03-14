@@ -13,4 +13,10 @@ export const tasksActions = {
             payload: tasks,
         };
     },
+    fetchTasksFail: (error) => {
+        return {
+            type:    types.FETCH_TASKS_FAIL,
+            payload: error,
+        };
+    },
 };
