@@ -1,25 +1,30 @@
 // Core
 import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
+import Scheduler from '../../components/Scheduler';
+
+// Actions
+import { tasksActions } from '../../bus/tasks/actions';
+import { connect } from 'react-redux';
+
+
+const mapDispatchToProps = {
+    fetchTasks: tasksActions.fetchTasks
+};
+
 
 @hot(module)
+@connect(null, mapDispatchToProps)
 export default class App extends Component {
+    componentDidMount() {
+        const { fetchTasks } = this.props;
+        fetchTasks();
+    }
+    
+    
     render () {
         return (
-            <h1
-                style = { {
-                    display:         'flex',
-                    justifyContent:  'center',
-                    alignItems:      'center',
-                    minHeight:       '100vh',
-                    backgroundColor: '#070A13',
-                    color:           'white',
-                    fontSize:        24,
-                    fontWeight:      '600',
-                    textAlign:       'center',
-                } }>
-                Персональный проект: стартовая точка
-            </h1>
+           <Scheduler/>
         );
     }
 }

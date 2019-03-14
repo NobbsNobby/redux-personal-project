@@ -3,21 +3,30 @@ import React, { Component } from 'react';
 
 // Instruments
 import Styles from './styles.m.css';
-import { tasks } from './tasks';
 
 // Components
 import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
+import { connect } from 'react-redux';
 
+const mapStateToProps = (state) => {
+    return {
+        tasks: state.tasks,
+    };
+};
+
+@connect(mapStateToProps)
 export default class Scheduler extends Component {
     render () {
+        const { tasks } = this.props;
+        
         const todoList = tasks.map((task) => (
             <Task
-                completed = { task.completed }
-                favorite = { task.favorite }
-                id = { task.id }
-                key = { task.id }
-                message = { task.message }
+                completed = { task.get('completed') }
+                favorite = { task.get('favorite') }
+                id = { task.get('id') }
+                key = { task.get('id') }
+                message = { task.get('message') }
                 { ...task }
             />
         ));
