@@ -1,8 +1,8 @@
 // Core
-import { fromJS, List } from 'immutable';
+import { fromJS, List } from "immutable";
 
 // Types
-import { types } from './types';
+import { types } from "./types";
 
 const initialState = List();
 
@@ -13,6 +13,18 @@ export const tasksReducer = (state = initialState, action) => {
 
         case types.CREATE_TASK:
             return state.unshift(fromJS(action.payload));
+
+        case types.REMOVE_TASK:
+            return state.filter((task) => task.get("id") !== action.payload);
+
+        case types.UPDATE_TASK:
+            return state.update(
+                state.findIndex((task) => {
+                    return task.get('id') === action.payload.id;
+                }),
+                (task) => task.merge(action.payload)
+
+            );
 
         default:
             return state;

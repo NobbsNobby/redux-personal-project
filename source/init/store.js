@@ -1,13 +1,13 @@
 // Core
-import { createStore } from 'redux';
+import { createStore } from "redux";
 
 //Roots
-import { rootReducer } from './rootReducer';
+import { rootReducer } from "./rootReducer";
 
 // Middleware
-import { enhancedStore, sagaMiddleware } from './middleware';
+import { enhancedStore, sagaMiddleware } from "./middleware";
 
-import { rootSaga } from './rootSaga';
+import { rootSaga } from "./rootSaga";
 
 export const store = createStore(rootReducer, enhancedStore);
 

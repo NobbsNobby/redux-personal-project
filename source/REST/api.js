@@ -1,10 +1,10 @@
-import { MAIN_URL, TOKEN } from './config';
+import { MAIN_URL, TOKEN } from "./config";
 
 export const api = {
     tasks: {
         fetch () {
             return fetch(`${MAIN_URL}`, {
-                method:  'GET',
+                method:  "GET",
                 headers: {
                     Authorization: TOKEN,
                 },
@@ -12,12 +12,30 @@ export const api = {
         },
         create (message) {
             return fetch(`${MAIN_URL}`, {
-                method:  'POST',
+                method:  "POST",
                 headers: {
                     Authorization:  TOKEN,
-                    'Content-Type': 'application/json',
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({ message }),
+            });
+        },
+        remove (taskId) {
+            return fetch(`${MAIN_URL}/${taskId}`, {
+                method:  "DELETE",
+                headers: {
+                    Authorization: TOKEN,
+                },
+            });
+        },
+        update (task) {
+            return fetch(`${MAIN_URL}`, {
+                method:  "PUT",
+                headers: {
+                    Authorization:  TOKEN,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify([task]),
             });
         },
     },

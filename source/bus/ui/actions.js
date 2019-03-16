@@ -1,5 +1,5 @@
 // Types
-import { types } from './types';
+import { types } from "./types";
 
 export const uiActions = {
     startFetching: () => {
@@ -17,7 +17,7 @@ export const uiActions = {
             type:    types.EMIT_ERROR,
             payload: error,
             error:   true,
-            meta
+            meta,
         };
     },
 };

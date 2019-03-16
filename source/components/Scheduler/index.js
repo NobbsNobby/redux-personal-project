@@ -13,10 +13,14 @@ import Spinner from '../Spinner';
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
 import { bindActionCreators } from 'redux';
+import FlipMove from 'react-flip-move';
+
+// Instruments
+import { sortTasksByGroup } from '../../instruments/helpers';
 
 const mapStateToProps = (state) => {
     return {
-        tasks: state.tasks,
+        tasks: sortTasksByGroup(state.tasks),
     };
 };
 
@@ -25,7 +29,9 @@ const mapDispatchToProps = (dispatch) => {
         actions: bindActionCreators(
                 {
                     fetchTasksAsync: tasksActions.fetchTasksAsync,
-                    createTaskAsync: tasksActions.createTaskAsync
+                    createTaskAsync: tasksActions.createTaskAsync,
+                    removeTaskAsync: tasksActions.removeTaskAsync,
+                    updateTaskAsync: tasksActions.updateTaskAsync,
                 },
                 dispatch
         )
@@ -41,15 +47,15 @@ export default class Scheduler extends Component {
     }
     
     _createTaskAsync = (event) => {
-        const { actions } = this.props;
         event.preventDefault();
+        const { actions } = this.props;
         const task = event.target.createTask.value;
+        
         actions.createTaskAsync(task)
     };
     
     render () {
-        const { tasks } = this.props;
-        
+        const { tasks, actions } = this.props;
         const todoList = tasks.map((task) => (
             <Task
                 completed = { task.get('completed') }
@@ -57,6 +63,8 @@ export default class Scheduler extends Component {
                 id = { task.get('id') }
                 key = { task.get('id') }
                 message = { task.get('message') }
+                removeTask = { actions.removeTaskAsync }
+                updateTask = { actions.updateTaskAsync }
                 { ...task }
             />
         ));
@@ -81,7 +89,9 @@ export default class Scheduler extends Component {
                             <button>Добавить задачу</button>
                         </form>
                         <div className = { Styles.overlay }>
-                            <ul>{todoList}</ul>
+                            <ul>
+                                <FlipMove>{todoList}</FlipMove>
+                            </ul>
                         </div>
                     </section>
                     <footer>
