@@ -14,13 +14,15 @@ import Spinner from '../Spinner';
 
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
+import { taskUpdateActions } from '../../bus/editingTask/actions';
 import { bindActionCreators } from 'redux';
 import FlipMove from 'react-flip-move';
 
 
-const mapStateToProps = (state) => {
+const mapStateToProps = ({tasks, editingTask}) => {
     return {
-        tasks: sortTasksByGroup(state.tasks),
+        tasks: sortTasksByGroup(tasks),
+        editingTask: editingTask
     };
 };
 
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
                     createTaskAsync: tasksActions.createTaskAsync,
                     removeTaskAsync: tasksActions.removeTaskAsync,
                     updateTaskAsync: tasksActions.updateTaskAsync,
+                    editStart: taskUpdateActions.editStart,
+                    editDone: taskUpdateActions.editDone,
+                    editReset: taskUpdateActions.editReset,
                 },
                 dispatch
         )
@@ -53,7 +58,7 @@ export default class Scheduler extends Component {
     };
     
     render () {
-        const { tasks, actions } = this.props;
+        const { tasks, actions, editingTask } = this.props;
         const todoList = tasks.map((task) => (
             <Task
                 completed = { task.get('completed') }
@@ -63,6 +68,10 @@ export default class Scheduler extends Component {
                 message = { task.get('message') }
                 removeTask = { actions.removeTaskAsync }
                 updateTask = { actions.updateTaskAsync }
+                editStart = { actions.editStart }
+                editDone = { actions.editDone }
+                editReset = { actions.editReset }
+                editingTask = { editingTask }
                 { ...task }
             />
         ));

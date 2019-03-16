@@ -12,7 +12,7 @@ import Edit from "../../theme/assets/Edit";
 import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
-    // taskInput = React.createRef();
+    taskInput = React.createRef();
 
     _getTaskShape = ({
         message = this.props.message,
@@ -45,20 +45,40 @@ export default class Task extends PureComponent {
         removeTask(id);
     };
 
-    _updateTaskMessageOnClick = () => {
-        const { isTaskEditing } = this.state;
+    _toggleEditing = () => {
+        const { editingTask, id, editStart, editReset } = this.props;
 
-        if (isTaskEditing) {
-            this._updateTask();
-
-            return null;
-        }
-
-        this._setTaskEditingState(true);
+        editingTask.get('id') === id
+            ? editReset()
+            : editStart(id);
     };
 
+    // _updateNewTaskMessage = (event) => {
+    //     this.setState({ newMessage: event.target.value });
+    // };
+    //
+    // _updateTaskMessageOnKeyDown = (event) => {
+    //     const { message, updateTask } = this.state;
+    //     const enterKey = event.key === "Enter";
+    //     const escKey = event.key === "Escape";
+    //
+    //     if (!newMessage.trim()) {
+    //         return null;
+    //     }
+    //
+    //     if (enterKey) {
+    //         updateTask(this._getTaskShape({ message: newMessage }));
+    //     }
+    //
+    //     if (escKey) {
+    //         this._cancelUpdatingTaskMessage();
+    //     }
+    // };
+
     render () {
-        const { message, completed, favorite } = this.props;
+        const { message, completed, favorite, editingTask, id } = this.props;
+
+        const isEditing = editingTask.get('id') === id;
 
         const styles = cx(Styles.task, {
             [Styles.completed]: completed,
@@ -75,7 +95,14 @@ export default class Task extends PureComponent {
                         color2 = '#FFF'
                         onClick = { this._changeCompleted }
                     />
-                    <input disabled type = 'text' value = { message } />
+                    <input
+                        disabled = { !isEditing }
+                        ref = { this.taskInput }
+                        type = 'text'
+                        value = { message }
+                        onChange = { this._updateNewTaskMessage }
+                        onKeyDown = { this._updateTaskMessageOnKeyDown }
+                    />
                 </div>
                 <div className = { Styles.actions }>
                     <Star
@@ -88,11 +115,11 @@ export default class Task extends PureComponent {
                     />
                     <Edit
                         inlineBlock
-                        checked = { false }
+                        checked = { isEditing }
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
-                        onClick = { this._updateTaskMessageOnClick }
+                        onClick = { this._toggleEditing }
                     />
                     <Remove
                         inlineBlock

@@ -1,0 +1,5 @@
+export const types = {
+    TASK_EDIT_START: "TASK_EDIT_START",
+    TASK_EDIT_DONE:  "TASK_EDIT_DONE",
+    TASK_EDIT_RESET: "TASK_EDIT_RESET",
+};
