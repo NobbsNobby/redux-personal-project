@@ -45,6 +45,18 @@ export default class Task extends PureComponent {
         removeTask(id);
     };
 
+    _updateTaskMessageOnClick = () => {
+        const { isTaskEditing } = this.state;
+
+        if (isTaskEditing) {
+            this._updateTask();
+
+            return null;
+        }
+
+        this._setTaskEditingState(true);
+    };
+
     render () {
         const { message, completed, favorite } = this.props;
 
@@ -80,6 +92,7 @@ export default class Task extends PureComponent {
                         className = { Styles.updateTaskMessageOnClick }
                         color1 = '#3B8EF3'
                         color2 = '#000'
+                        onClick = { this._updateTaskMessageOnClick }
                     />
                     <Remove
                         inlineBlock

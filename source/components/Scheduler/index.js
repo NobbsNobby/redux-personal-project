@@ -1,8 +1,10 @@
 // Core
 import React, { Component } from 'react';
+import { Control, Form } from 'react-redux-form';
 
 // Instruments
 import Styles from './styles.m.css';
+import { sortTasksByGroup } from '../../instruments/helpers';
 
 // Components
 import Task from '../Task';
@@ -15,8 +17,6 @@ import { tasksActions } from '../../bus/tasks/actions';
 import { bindActionCreators } from 'redux';
 import FlipMove from 'react-flip-move';
 
-// Instruments
-import { sortTasksByGroup } from '../../instruments/helpers';
 
 const mapStateToProps = (state) => {
     return {
@@ -46,12 +46,10 @@ export default class Scheduler extends Component {
         actions.fetchTasksAsync()
     }
     
-    _createTaskAsync = (event) => {
-        event.preventDefault();
-        const { actions } = this.props;
-        const task = event.target.createTask.value;
-        
-        actions.createTaskAsync(task)
+    _createTaskAsync = ({createTaskText}) => {
+         const { actions } = this.props;
+         
+         actions.createTaskAsync(createTaskText)
     };
     
     render () {
@@ -78,16 +76,20 @@ export default class Scheduler extends Component {
                         <input placeholder = 'Поиск' type = 'search' />
                     </header>
                     <section>
-                        <form onSubmit = { this._createTaskAsync }>
-                            <input
+                        <Form
+                                model = 'forms.scheduler'
+                                onSubmit = { this._createTaskAsync }
+                        >
+                            <Control.text
                                 className = { Styles.createTask }
                                 maxLength = { 50 }
+                                model = '.createTaskText'
                                 placeholder = 'Описание моей новой задачи'
-                                type = 'text'
                                 name = 'createTask'
+                                validators = {{ required: (val) => val.trim().length }}
                             />
                             <button>Добавить задачу</button>
-                        </form>
+                        </Form>
                         <div className = { Styles.overlay }>
                             <ul>
                                 <FlipMove>{todoList}</FlipMove>

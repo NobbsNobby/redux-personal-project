@@ -1,5 +1,6 @@
 //Core
 import { put, apply } from "redux-saga/effects";
+import { actions } from 'react-redux-form';
 
 // Instruments
 import { api } from "../../../../REST";
@@ -15,8 +16,9 @@ export function* createTask ({ payload: text }) {
         if (response.status !== 200) {
             throw new Error(message);
         }
-        
+
         yield put(tasksActions.createTask(task));
+        yield put(actions.reset('forms.scheduler.createTaskText'));
     } catch (error) {
         yield put(uiActions.emitError(error, "createTask worker"));
     } finally {
