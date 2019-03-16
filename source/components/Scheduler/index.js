@@ -10,14 +10,43 @@ import Checkbox from '../../theme/assets/Checkbox';
 import { connect } from 'react-redux';
 import Spinner from '../Spinner';
 
+// Actions
+import { tasksActions } from '../../bus/tasks/actions';
+import { bindActionCreators } from 'redux';
+
 const mapStateToProps = (state) => {
     return {
         tasks: state.tasks,
     };
 };
 
-@connect(mapStateToProps)
+const mapDispatchToProps = (dispatch) => {
+    return {
+        actions: bindActionCreators(
+                {
+                    fetchTasksAsync: tasksActions.fetchTasksAsync,
+                    createTaskAsync: tasksActions.createTaskAsync
+                },
+                dispatch
+        )
+    }
+};
+
+@connect(mapStateToProps, mapDispatchToProps)
 export default class Scheduler extends Component {
+    componentDidMount() {
+        const { actions } = this.props;
+        
+        actions.fetchTasksAsync()
+    }
+    
+    _createTaskAsync = (event) => {
+        const { actions } = this.props;
+        event.preventDefault();
+        const task = event.target.createTask.value;
+        actions.createTaskAsync(task)
+    };
+    
     render () {
         const { tasks } = this.props;
         
@@ -41,12 +70,13 @@ export default class Scheduler extends Component {
                         <input placeholder = 'Поиск' type = 'search' />
                     </header>
                     <section>
-                        <form>
+                        <form onSubmit = { this._createTaskAsync }>
                             <input
                                 className = { Styles.createTask }
                                 maxLength = { 50 }
                                 placeholder = 'Описание моей новой задачи'
                                 type = 'text'
+                                name = 'createTask'
                             />
                             <button>Добавить задачу</button>
                         </form>

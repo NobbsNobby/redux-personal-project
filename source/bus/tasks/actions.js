@@ -2,21 +2,27 @@
 import { types } from './types';
 
 export const tasksActions = {
-    fetchTasks: () => {
+    fetchTasksAsync: () => {
         return {
-            type: types.FETCH_TASKS,
+            type: types.FETCH_TASKS_ASYNC,
         };
     },
-    fetchTasksSuccess: (tasks) => {
+    fetchTasks: (tasks) => {
         return {
-            type:    types.FETCH_TASKS_SUCCESS,
+            type:    types.FETCH_TASKS,
             payload: tasks,
         };
     },
-    fetchTasksFail: (error) => {
+    createTaskAsync: (task) => {
         return {
-            type:    types.FETCH_TASKS_FAIL,
-            payload: error,
+            type:    types.CREATE_TASK_ASYNC,
+            payload: task,
+        };
+    },
+    createTask: (task) => {
+        return {
+            type:    types.CREATE_TASK,
+            payload: task,
         };
     },
 };
