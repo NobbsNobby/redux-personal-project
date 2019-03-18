@@ -14,11 +14,6 @@ export const taskUpdateActions = {
             payload: message,
         };
     },
-    editDone: () => {
-        return {
-            type: types.TASK_EDIT_DONE,
-        };
-    },
     editReset: () => {
         return {
             type: types.TASK_EDIT_RESET,

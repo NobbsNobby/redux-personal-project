@@ -39,7 +39,6 @@ const mapDispatchToProps = (dispatch) => {
                     completeAllTasks: tasksActions.completeAllTasksAsync,
                     editStart: taskUpdateActions.editStart,
                     editUpdate: taskUpdateActions.editUpdate,
-                    editDone: taskUpdateActions.editDone,
                     editReset: taskUpdateActions.editReset,
                     updateFilter: filterActions.updateFilter
                 },
@@ -55,6 +54,7 @@ export default class Scheduler extends Component {
         
         actions.fetchTasksAsync()
     }
+    
     _taskArrayFilter = (el) => {
         const { tasksFilter } = this.props;
         return el.get('message').toLocaleLowerCase().includes(tasksFilter);
@@ -67,7 +67,6 @@ export default class Scheduler extends Component {
     
     _createTaskAsync = ({createTaskText}) => {
          const { actions } = this.props;
-         
          actions.createTaskAsync(createTaskText)
     };
     
