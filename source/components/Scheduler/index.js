@@ -35,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
                     removeTaskAsync: tasksActions.removeTaskAsync,
                     updateTaskAsync: tasksActions.updateTaskAsync,
                     editStart: taskUpdateActions.editStart,
+                    editUpdate: taskUpdateActions.editUpdate,
                     editDone: taskUpdateActions.editDone,
                     editReset: taskUpdateActions.editReset,
                 },
@@ -69,6 +70,7 @@ export default class Scheduler extends Component {
                 removeTask = { actions.removeTaskAsync }
                 updateTask = { actions.updateTaskAsync }
                 editStart = { actions.editStart }
+                editUpdate = { actions.editUpdate }
                 editDone = { actions.editDone }
                 editReset = { actions.editReset }
                 editingTask = { editingTask }
