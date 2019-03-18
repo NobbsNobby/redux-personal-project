@@ -62,7 +62,6 @@ export default class Task extends PureComponent {
         const { editUpdate } = this.props;
         const newMessage = event.target.value;
 
-        console.log(newMessage);
         if (newMessage.length < 50) {
             editUpdate(newMessage);
         }

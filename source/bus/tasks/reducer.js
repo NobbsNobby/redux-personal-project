@@ -26,6 +26,9 @@ export const tasksReducer = (state = initialState, action) => {
 
             );
 
+        case types.COMPLETE_ALL_TASKS:
+            return state.map((task) => task.set("completed", true));
+
         default:
             return state;
     }

@@ -29,13 +29,19 @@ export const api = {
             });
         },
         update (task) {
+            let fetchTask = task;
+
+            if (!Array.isArray(task)) {
+                fetchTask = [task];
+            }
+
             return fetch(`${MAIN_URL}`, {
                 method:  "PUT",
                 headers: {
                     Authorization:  TOKEN,
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify([task]),
+                body: JSON.stringify(fetchTask),
             });
         },
     },

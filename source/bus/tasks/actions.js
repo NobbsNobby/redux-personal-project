@@ -49,4 +49,14 @@ export const tasksActions = {
             payload: task,
         };
     },
+    completeAllTasksAsync: () => {
+        return {
+            type: types.COMPLETE_ALL_TASKS_ASYNC,
+        };
+    },
+    completeAllTasks: () => {
+        return {
+            type: types.COMPLETE_ALL_TASKS,
+        };
+    },
 };

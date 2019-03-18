@@ -34,6 +34,7 @@ const mapDispatchToProps = (dispatch) => {
                     createTaskAsync: tasksActions.createTaskAsync,
                     removeTaskAsync: tasksActions.removeTaskAsync,
                     updateTaskAsync: tasksActions.updateTaskAsync,
+                    completeAllTasks: tasksActions.completeAllTasksAsync,
                     editStart: taskUpdateActions.editStart,
                     editUpdate: taskUpdateActions.editUpdate,
                     editDone: taskUpdateActions.editDone,
@@ -59,7 +60,10 @@ export default class Scheduler extends Component {
     };
     
     render () {
-        const { tasks, actions, editingTask } = this.props;
+        const { tasks, actions, editingTask} = this.props;
+        
+        const allTasksDone = tasks.every((task) => task.get('completed') === true);
+        
         const todoList = tasks.map((task) => (
             <Task
                 completed = { task.get('completed') }
@@ -108,7 +112,12 @@ export default class Scheduler extends Component {
                         </div>
                     </section>
                     <footer>
-                        <Checkbox checked color1 = '#363636' color2 = '#fff' />
+                        <Checkbox
+                                checked = { allTasksDone }
+                                color1 = '#363636'
+                                color2 = '#fff'
+                                onClick = { !allTasksDone && actions.completeAllTasks }
+                        />
                         <span className = { Styles.completeAllTasks }>
                             Все задачи выполнены
                         </span>
