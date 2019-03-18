@@ -1,15 +1,10 @@
 //Core
 import { put, apply, select } from "redux-saga/effects";
-import { actions } from 'react-redux-form';
 
 // Instruments
 import { api } from "../../../../REST";
 import { tasksActions } from "../../actions";
 import { uiActions } from "../../../ui/actions";
-
-function log (message) {
-    console.log(message);
-}
 
 export function* completeAllTasks () {
     try {
@@ -18,7 +13,6 @@ export function* completeAllTasks () {
         const allTasks = yield select((state) => state.tasks);
         const tasksComplete = allTasks.map((task) => task.set('completed', true)).toJS();
 
-        // yield log(tasksComplete);
         const response = yield apply(api, api.tasks.update, [tasksComplete]);
         const { message } = yield apply(response, response.json);
 

@@ -15,14 +15,16 @@ import Spinner from '../Spinner';
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
 import { taskUpdateActions } from '../../bus/editingTask/actions';
+import { filterActions } from '../../bus/filter/actions';
 import { bindActionCreators } from 'redux';
 import FlipMove from 'react-flip-move';
 
 
-const mapStateToProps = ({tasks, editingTask}) => {
+const mapStateToProps = ({tasks, editingTask, filter}) => {
     return {
         tasks: sortTasksByGroup(tasks),
-        editingTask: editingTask
+        editingTask: editingTask,
+        tasksFilter: filter.get('tasksFilter')
     };
 };
 
@@ -39,6 +41,7 @@ const mapDispatchToProps = (dispatch) => {
                     editUpdate: taskUpdateActions.editUpdate,
                     editDone: taskUpdateActions.editDone,
                     editReset: taskUpdateActions.editReset,
+                    updateFilter: filterActions.updateFilter
                 },
                 dispatch
         )
@@ -52,6 +55,15 @@ export default class Scheduler extends Component {
         
         actions.fetchTasksAsync()
     }
+    _taskArrayFilter = (el) => {
+        const { tasksFilter } = this.props;
+        return el.get('message').toLocaleLowerCase().includes(tasksFilter);
+    };
+    
+    _updateTasksFilter = (event) => {
+        const { actions } = this.props;
+        actions.updateFilter(event.target.value.toLowerCase())
+    };
     
     _createTaskAsync = ({createTaskText}) => {
          const { actions } = this.props;
@@ -64,7 +76,7 @@ export default class Scheduler extends Component {
         
         const allTasksDone = tasks.every((task) => task.get('completed') === true);
         
-        const todoList = tasks.map((task) => (
+        const todoList = tasks.filter(this._taskArrayFilter).map((task) => (
             <Task
                 completed = { task.get('completed') }
                 favorite = { task.get('favorite') }
@@ -88,7 +100,11 @@ export default class Scheduler extends Component {
                 <main>
                     <header>
                         <h1>Планировщик задач</h1>
-                        <input placeholder = 'Поиск' type = 'search' />
+                        <input
+                                placeholder = 'Поиск'
+                                type = 'search'
+                                onChange = { this._updateTasksFilter }
+                        />
                     </header>
                     <section>
                         <Form
