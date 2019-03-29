@@ -86,10 +86,8 @@ export default class Scheduler extends Component {
                 updateTask = { actions.updateTaskAsync }
                 editStart = { actions.editStart }
                 editUpdate = { actions.editUpdate }
-                editDone = { actions.editDone }
                 editReset = { actions.editReset }
                 editingTask = { editingTask }
-                { ...task }
             />
         ));
 
