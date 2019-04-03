@@ -1,6 +1,9 @@
 // Core
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Control, Form } from 'react-redux-form';
+import FlipMove from 'react-flip-move';
+import { bindActionCreators } from 'redux';
 
 // Instruments
 import Styles from './styles.m.css';
@@ -9,15 +12,12 @@ import { sortTasksByGroup } from '../../instruments/helpers';
 // Components
 import Task from '../Task';
 import Checkbox from '../../theme/assets/Checkbox';
-import { connect } from 'react-redux';
 import Spinner from '../Spinner';
 
 // Actions
 import { tasksActions } from '../../bus/tasks/actions';
 import { taskUpdateActions } from '../../bus/editingTask/actions';
 import { filterActions } from '../../bus/filter/actions';
-import { bindActionCreators } from 'redux';
-import FlipMove from 'react-flip-move';
 
 
 const mapStateToProps = ({tasks, editingTask, filter}) => {

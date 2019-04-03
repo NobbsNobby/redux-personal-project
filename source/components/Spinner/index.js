@@ -1,9 +1,9 @@
 // Core
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 // Instruments
 import Styles from "./styles.m.css";
-import { connect } from "react-redux";
 
 const mapStateToProps = (state) => {
     return {

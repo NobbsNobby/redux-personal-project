@@ -13,7 +13,11 @@ import Star from "../../theme/assets/Star";
 
 export default class Task extends PureComponent {
     componentDidUpdate () {
-        this.taskInput.current.focus();
+        const { editingTask, id } = this.props;
+
+        editingTask.get('id') === id
+            ? this.taskInput.current.focus()
+            : null;
     }
 
     taskInput = React.createRef();
